@@ -176,6 +176,31 @@ public class Base_Class {
     }
 
     public void deleteUser() {
+		try {
+			
+			Database_Class db = new Database_Class();
+			conn = db.getConnection();			
+			
+			procedureCall = conn.prepareCall("{ CALL CMSC495.usp_DeleteUser(?, ?) }");
+			procedureCall.setString(1, loginName);
+			procedureCall.setInt(2, accountID);
+			procedureCall.executeQuery();				
+
+		} catch (SQLException e) {
+			throw e;
+		} catch (Exception e) {
+			throw e;
+		} finally {
+
+			if (conn != null) {
+				conn.close();
+			}			
+			
+			if (procedureCall != null) {
+				procedureCall.close();
+			}				
+
+		}        
     }
 
     public static void main(String[] args) {
